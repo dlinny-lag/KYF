@@ -1,0 +1,10 @@
+syntax: glob
+.vs/*
+*/Debug/*
+*.user
+.idea/*
+cmake-build-debug/*
+*/Release/*
+Release/*
+.hg
+.hgignore
