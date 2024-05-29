@@ -1,12 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
+    <ProjectConfiguration Include="PreNG-Debug|x64">
+      <Configuration>PreNG-Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
+    <ProjectConfiguration Include="PreNG-Release|x64">
+      <Configuration>PreNG-Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="NG-Debug|x64">
+      <Configuration>NG-Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="NG-Release|x64">
+      <Configuration>NG-Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -15,14 +23,24 @@
     <RootNamespace>KYF</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <F4SEPath Condition="$(Configuration.Contains('PreNG-'))">..\..\f4se-pre-declarative-load</F4SEPath>
+    <F4SEPath Condition="!$(Configuration.Contains('PreNG-'))">..\..\f4se-declarative-load</F4SEPath>
+    <MyDllName Condition="$(Configuration.Contains('PreNG-'))">$(MSBuildProjectName)</MyDllName>
+    <MyDllName Condition="!$(Configuration.Contains('PreNG-'))">$(MSBuildProjectName)_ng</MyDllName>
+    <MyBuildConfiguration Condition="$(Configuration.Contains('Debug'))">Debug</MyBuildConfiguration>
+    <MyBuildConfiguration Condition="$(Configuration.Contains('Release'))">Release</MyBuildConfiguration>
+    <MyPreprocessorDefinitions Condition="!$(Configuration.Contains('PreNG-'))">_F4SE_DECLARATIVE_LOAD</MyPreprocessorDefinitions>
+    <MyPreprocessorDefinitions Condition="$(Configuration.Contains('PreNG-'))">F4SE_PRE_DECLARATIVE_LOAD</MyPreprocessorDefinitions>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(MyBuildConfiguration)'=='Debug'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(MyBuildConfiguration)'=='Release'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
@@ -32,58 +50,55 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.x64.user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.x64.user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup Condition="'$(MyBuildConfiguration)'=='Debug'">
     <OutDir>C:\Program Files %28x86%29\Steam\steamapps\common\Fallout 4\Data\F4SE\plugins\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
+    <IntDir>$(MyBuildConfiguration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>$(ProjectName)</TargetName>
-    <IncludePath>..\Shared;..\..\f4se;..\..\common;$(IncludePath)</IncludePath>
+    <TargetName>$(MyDllName)</TargetName>
+    <IncludePath>..\Shared;$(F4SEPath);..\..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
+  <PropertyGroup Condition="'$(MyBuildConfiguration)'=='Release'">
+    <OutDir>$(SolutionDir)$(MyBuildConfiguration)\</OutDir>
+    <IntDir>$(MyBuildConfiguration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>$(ProjectName)</TargetName>
-    <IncludePath>..\Shared;..\..\f4se;..\..\common;$(IncludePath)</IncludePath>
+    <TargetName>$(MyDllName)</TargetName>
+    <IncludePath>..\Shared;$(F4SEPath);..\..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ItemDefinitionGroup Condition="'$(MyBuildConfiguration)'=='Debug'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\..;$(SolutionDir)\..\..\f4se;$(SolutionDir)\..\..\f4se\f4se;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;_WINDOWS;_USRDLL;RUNTIME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\..;$(SolutionDir)\$(F4SEPath);$(SolutionDir)\$(F4SEPath)\f4se;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;_WINDOWS;_USRDLL;RUNTIME;$(MyPreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader />
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ForcedIncludeFiles>common/IPrefix.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
-      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention />
       <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)_vc11\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>../../common/build/$(ConfigurationName)/common.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)x64_vc11\$(MyBuildConfiguration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>../../common/build/$(MyBuildConfiguration)/common.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <ItemDefinitionGroup Condition="'$(MyBuildConfiguration)'=='Release'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\..;$(SolutionDir)\..\..\f4se;$(SolutionDir)\..\..\f4se\f4se;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;_WINDOWS;_USRDLL;RUNTIME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\..;$(SolutionDir)\$(F4SEPath);$(SolutionDir)\$(F4SEPath)\f4se;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;_WINDOWS;_USRDLL;RUNTIME;$(MyPreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
@@ -93,71 +108,69 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention />
       <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)_vc11\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>../../common/build/$(ConfigurationName)/common.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)_vc11\$(MyBuildConfiguration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>../../common/build/$(MyBuildConfiguration)/common.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\f4se\f4se\GameAPI.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\GameData.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\GameEvents.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\GameExtraData.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\GameFormComponents.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\GameForms.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\GameInput.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\GameReferences.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\GameRTTI.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\GameTypes.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\GameUtilities.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\ObScript.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\PapyrusArgs.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\PapyrusComponent.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\PapyrusEvents.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\PapyrusInterfaces.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\PapyrusNativeFunctions.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\PapyrusStruct.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\PapyrusValue.cpp" />
-    <ClCompile Include="..\..\f4se\f4se\PapyrusVM.cpp" />
-    <ClCompile Include="..\..\f4se\f4se_common\Relocation.cpp" />
-    <ClCompile Include="..\..\f4se\f4se_common\Utilities.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\GameAPI.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\GameData.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\GameEvents.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\GameExtraData.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\GameFormComponents.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\GameForms.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\GameInput.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\GameReferences.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\GameRTTI.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\GameTypes.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\GameUtilities.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\ObScript.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\PapyrusArgs.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\PapyrusComponent.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\PapyrusEvents.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\PapyrusInterfaces.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\PapyrusNativeFunctions.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\PapyrusStruct.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\PapyrusValue.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se\PapyrusVM.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se_common\Relocation.cpp" />
+    <ClCompile Include="$(F4SEPath)\f4se_common\Utilities.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SerializationHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\f4se\f4se\GameRTTI.inl" />
-    <None Include="exports.def" />
+    <None Include="$(F4SEPath)\f4se\GameRTTI.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\f4se\f4se\GameAPI.h" />
-    <ClInclude Include="..\..\f4se\f4se\GameData.h" />
-    <ClInclude Include="..\..\f4se\f4se\GameEvents.h" />
-    <ClInclude Include="..\..\f4se\f4se\GameExtraData.h" />
-    <ClInclude Include="..\..\f4se\f4se\GameFormComponents.h" />
-    <ClInclude Include="..\..\f4se\f4se\GameForms.h" />
-    <ClInclude Include="..\..\f4se\f4se\GameInput.h" />
-    <ClInclude Include="..\..\f4se\f4se\GameReferences.h" />
-    <ClInclude Include="..\..\f4se\f4se\GameRTTI.h" />
-    <ClInclude Include="..\..\f4se\f4se\GameTypes.h" />
-    <ClInclude Include="..\..\f4se\f4se\GameUtilities.h" />
-    <ClInclude Include="..\..\f4se\f4se\ObScript.h" />
-    <ClInclude Include="..\..\f4se\f4se\PapyrusArgs.h" />
-    <ClInclude Include="..\..\f4se\f4se\PapyrusComponent.h" />
-    <ClInclude Include="..\..\f4se\f4se\PapyrusEvents.h" />
-    <ClInclude Include="..\..\f4se\f4se\PapyrusInterfaces.h" />
-    <ClInclude Include="..\..\f4se\f4se\PapyrusNativeFunctions.h" />
-    <ClInclude Include="..\..\f4se\f4se\PapyrusStruct.h" />
-    <ClInclude Include="..\..\f4se\f4se\PapyrusValue.h" />
-    <ClInclude Include="..\..\f4se\f4se\PapyrusVM.h" />
-    <ClInclude Include="..\..\f4se\f4se_common\Relocation.h" />
-    <ClInclude Include="..\..\f4se\f4se_common\Utilities.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\GameAPI.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\GameData.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\GameEvents.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\GameExtraData.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\GameFormComponents.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\GameForms.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\GameInput.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\GameReferences.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\GameRTTI.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\GameTypes.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\GameUtilities.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\ObScript.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\PapyrusArgs.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\PapyrusComponent.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\PapyrusEvents.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\PapyrusInterfaces.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\PapyrusNativeFunctions.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\PapyrusStruct.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\PapyrusValue.h" />
+    <ClInclude Include="$(F4SEPath)\f4se\PapyrusVM.h" />
+    <ClInclude Include="$(F4SEPath)\f4se_common\Relocation.h" />
+    <ClInclude Include="$(F4SEPath)\f4se_common\Utilities.h" />
     <ClInclude Include="AttributesManager.hpp" />
     <ClInclude Include="PluginAPIExport.hpp" />
     <ClInclude Include="resource.h" />
