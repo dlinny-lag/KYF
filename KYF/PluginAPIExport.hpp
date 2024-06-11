@@ -9,8 +9,8 @@ namespace PluginAPIExport
 
 	const char* pluginName = "KYFNative";
 	const UInt32 pluginUID = 'KYFN';
-	const UInt32 pluginVersionInt = 0x0050;
-	const char* pluginVersionString = "0.5.0";
+	const UInt32 pluginVersionInt = 0x0062;
+	const char* pluginVersionString = "0.6.2";
 
 	BSFixedString GetVersionString(StaticFunctionTag* _)
 	{

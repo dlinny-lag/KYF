@@ -1,3 +1,3 @@
 # Know Your Friend
-Source code for F4SE plugin in https://www.nexusmods.com/fallout4/mods/51940
+Source code for https://www.nexusmods.com/fallout4/mods/51940
 
