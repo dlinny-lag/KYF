@@ -1,12 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="PreNG-Debug|x64">
-      <Configuration>PreNG-Debug</Configuration>
+    <ProjectConfiguration Include="AU-Debug|x64">
+      <Configuration>AU-Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="PreNG-Release|x64">
-      <Configuration>PreNG-Release</Configuration>
+    <ProjectConfiguration Include="AU-Release|x64">
+      <Configuration>AU-Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="OG-Debug|x64">
+      <Configuration>OG-Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="OG-Release|x64">
+      <Configuration>OG-Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="NG-Debug|x64">
@@ -21,17 +29,20 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{161e7cec-d5ff-496b-934f-bc8ad419c81c}</ProjectGuid>
     <RootNamespace>KYF</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Label="UserMacros">
-    <F4SEPath Condition="$(Configuration.Contains('PreNG-'))">..\..\f4se-pre-declarative-load</F4SEPath>
-    <F4SEPath Condition="!$(Configuration.Contains('PreNG-'))">..\..\f4se-declarative-load</F4SEPath>
-    <MyDllName Condition="$(Configuration.Contains('PreNG-'))">$(MSBuildProjectName)</MyDllName>
-    <MyDllName Condition="!$(Configuration.Contains('PreNG-'))">$(MSBuildProjectName)_ng</MyDllName>
+    <F4SEPath Condition="$(Configuration.Contains('OG-'))">..\..\f4se-pre-declarative-load</F4SEPath>
+    <F4SEPath Condition="$(Configuration.Contains('NG-'))">..\..\f4se-declarative-load</F4SEPath>
+    <F4SEPath Condition="$(Configuration.Contains('AU-'))">..\..\f4se-au</F4SEPath>
+    <MyDllName Condition="$(Configuration.Contains('OG-'))">$(MSBuildProjectName)</MyDllName>
+    <MyDllName Condition="$(Configuration.Contains('NG-'))">$(MSBuildProjectName)_ng</MyDllName>
+    <MyDllName Condition="$(Configuration.Contains('AU-'))">$(MSBuildProjectName)_au</MyDllName>
     <MyBuildConfiguration Condition="$(Configuration.Contains('Debug'))">Debug</MyBuildConfiguration>
     <MyBuildConfiguration Condition="$(Configuration.Contains('Release'))">Release</MyBuildConfiguration>
-    <MyPreprocessorDefinitions Condition="!$(Configuration.Contains('PreNG-'))">_F4SE_DECLARATIVE_LOAD</MyPreprocessorDefinitions>
-    <MyPreprocessorDefinitions Condition="$(Configuration.Contains('PreNG-'))">F4SE_PRE_DECLARATIVE_LOAD</MyPreprocessorDefinitions>
+    <MyPreprocessorDefinitions Condition="$(Configuration.Contains('OG-'))">_F4_RUNTIME_1_10_163;F4SE_PRE_DECLARATIVE_LOAD</MyPreprocessorDefinitions>
+    <MyPreprocessorDefinitions Condition="$(Configuration.Contains('NG-'))">_F4_RUNTIME_1_10_984;_F4SE_DECLARATIVE_LOAD</MyPreprocessorDefinitions>
+    <MyPreprocessorDefinitions Condition="$(Configuration.Contains('AU-'))">_F4_RUNTIME_1_11_137;_F4SE_DECLARATIVE_LOAD</MyPreprocessorDefinitions>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(MyBuildConfiguration)'=='Debug'" Label="Configuration">

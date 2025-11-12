@@ -1,22 +1,12 @@
 #include <shlobj.h>
 
 #include "f4se/PluginAPI.h"
-#include "f4se_common/f4se_version.h"
 #include "f4se/PapyrusVM.h"
 
 #include "PluginAPIExport.hpp"
 #include "AttributesManager.hpp"
 
-#if F4SE_PRE_DECLARATIVE_LOAD
-	#define REQUIRED_RUNTIME RUNTIME_VERSION_1_10_163
-#endif
-#if _F4SE_DECLARATIVE_LOAD
-	#define REQUIRED_RUNTIME RUNTIME_VERSION_1_10_984
-#endif
-
-#ifndef REQUIRED_RUNTIME
-	#error Invalid project configuration
-#endif
+#include "f4_runtime.h"
 
 
 PluginHandle g_pluginHandle = kPluginHandle_Invalid;
