@@ -42,7 +42,7 @@
     <MyBuildConfiguration Condition="$(Configuration.Contains('Release'))">Release</MyBuildConfiguration>
     <MyPreprocessorDefinitions Condition="$(Configuration.Contains('OG-'))">_F4_RUNTIME_1_10_163;F4SE_PRE_DECLARATIVE_LOAD</MyPreprocessorDefinitions>
     <MyPreprocessorDefinitions Condition="$(Configuration.Contains('NG-'))">_F4_RUNTIME_1_10_984;_F4SE_DECLARATIVE_LOAD</MyPreprocessorDefinitions>
-    <MyPreprocessorDefinitions Condition="$(Configuration.Contains('AU-'))">_F4_RUNTIME_1_11_137;_F4SE_DECLARATIVE_LOAD</MyPreprocessorDefinitions>
+    <MyPreprocessorDefinitions Condition="$(Configuration.Contains('AU-'))">_F4_RUNTIME_1_11_159;_F4SE_DECLARATIVE_LOAD</MyPreprocessorDefinitions>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(MyBuildConfiguration)'=='Debug'" Label="Configuration">
