@@ -141,12 +141,12 @@
     <ClInclude Include="PluginAPIExport.hpp" />
     <ClInclude Include="AttributesManager.hpp" />
     <ClInclude Include="SerializationHelper.h" />
+    <ClInclude Include="f4_runtime.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VersionInfo.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="exports.def" />
     <None Include="$(F4SEPath)\f4se\GameRTTI.inl">
       <Filter>F4SE</Filter>
     </None>
